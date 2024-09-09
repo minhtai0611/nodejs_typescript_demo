@@ -1,0 +1,20 @@
+{
+  "name": "nodejs_typescript_demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "npx tsc --watch --incremental",
+    "start": "nodemon",
+    "dev": "concurrently --kill-others --names \"TypeScript,Server\" --prefix-colors \"blue.bold,red.bold\" \"npm run tsc\" \"npm run start\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "concurrently": "^9.0.0",
+    "nodemon": "^3.1.4",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
