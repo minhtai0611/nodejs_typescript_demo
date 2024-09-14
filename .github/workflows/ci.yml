@@ -42,5 +42,5 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Push to Docker Hub (optional)
-        run: docker push nodejs-express-typescript-demo
+      - name: Push to Docker Hub
+        run: docker push minhtai0611/nodejs-express-typescript-demo:latest
