@@ -1,0 +1,21 @@
+ services:
+   app:
+     build: .
+     ports:
+       - '3000:3000'
+     environment:
+       - DB_HOST=127.0.0.1
+       - DB_USER=root
+       - DB_PASSWORD=root
+       - DB_DATABASE=information_schema
+     depends_on:
+       - db
+   
+   db:
+     image: mariadb:latest 
+     restart: always 
+     environment:
+       MYSQL_ROOT_PASSWORD: root
+       MYSQL_DATABASE: information_schema
+     ports:
+       - '3306:3306'

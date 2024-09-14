@@ -4,6 +4,7 @@
   "main": "src/app.ts",
   "scripts": {
     "tsc": "npx tsc --watch --incremental",
+    "tsc-build": "npx tsc --incremental",
     "start": "nodemon",
     "dev": "concurrently --kill-others --names \"TypeScript,Server\" --prefix-colors \"blue.bold,red.bold\" \"npm run tsc\" \"npm run start\""
   },

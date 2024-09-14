@@ -9,14 +9,32 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    services:
+      db:
+        image: mariadb:latest
+        env:
+          MYSQL_ROOT_PASSWORD: root
+          MYSQL_DATABASE: information_schema
+        ports:
+          - 3306:3306
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js environment
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: "22"
 
       - name: Install dependencies
         run: npm install
+
+      - name: Compile Typescript to Javascript files
+        run: npm run tsc
+
+      - name: Build Docker image
+        run: docker build . --tag nodejsExpressTypescriptDemo
+
+      - name: Push to Docker Hub (optional)
+        run: docker push /nodejsExpressTypescriptDemo
