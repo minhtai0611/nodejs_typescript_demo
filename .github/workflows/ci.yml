@@ -31,7 +31,7 @@ jobs:
         run: npm install
 
       - name: Compile Typescript to Javascript files
-        run: npm run tsc
+        run: npm run tsc-build
 
       - name: Build Docker image
         run: docker build . --tag nodejsExpressTypescriptDemo
