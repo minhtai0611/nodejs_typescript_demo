@@ -34,7 +34,7 @@ jobs:
         run: npm run tsc-build
 
       - name: Build Docker image
-        run: docker build . --tag nodejsExpressTypescriptDemo
+        run: docker build . --tag nodejs-express-typescript-demo
 
       - name: Push to Docker Hub (optional)
-        run: docker push /nodejsExpressTypescriptDemo
+        run: docker push /nodejs-express-typescript-demo
