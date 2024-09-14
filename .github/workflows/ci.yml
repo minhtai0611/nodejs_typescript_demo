@@ -37,4 +37,4 @@ jobs:
         run: docker build . --tag nodejs-express-typescript-demo
 
       - name: Push to Docker Hub (optional)
-        run: docker push /nodejs-express-typescript-demo
+        run: docker push minhtai0611/nodejs-express-typescript-demo
