@@ -34,7 +34,7 @@ jobs:
         run: npm run tsc-build
 
       - name: Build Docker image
-        run: docker build . --tag nodejs-express-typescript-demo
+        run: docker build . --tag minhtai0611/nodejs-express-typescript-demo:latest
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
