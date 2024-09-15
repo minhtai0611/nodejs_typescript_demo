@@ -15,7 +15,7 @@
      image: mariadb:latest 
      restart: always 
      environment:
-       MYSQL_ROOT_PASSWORD: root
-       MYSQL_DATABASE: mysql
+       MARIADB_ROOT_PASSWORD: root
+       MARIADB_DATABASE: mysql
      ports:
        - '3306:3306'
