@@ -5,9 +5,9 @@
        - '3000:3000'
      environment:
        - DB_HOST=127.0.0.1
-       - DB_USER=root
+       - DB_USER=minhtai
        - DB_PASSWORD=root
-       - DB_DATABASE=information_schema
+       - DB_DATABASE=mysql
      depends_on:
        - db
    
@@ -16,6 +16,6 @@
      restart: always 
      environment:
        MYSQL_ROOT_PASSWORD: root
-       MYSQL_DATABASE: information_schema
+       MYSQL_DATABASE: mysql
      ports:
        - '3306:3306'
