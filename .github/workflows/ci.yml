@@ -46,4 +46,4 @@ jobs:
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest
 
       - name: Run Docker image
-        run: docker run --name ${{ secrets.DOCKERHUB_USERNAME }}-nodejs-express-typescript-demo -e MARIADB_ROOT_PASSWORD=root -d mariadb:latest
+        run: docker run -d -p 3000:3000 --name ${{ secrets.DOCKERHUB_USERNAME }}-nodejs-express-typescript-demo minhtai0611/nodejs-express-typescript-demo:latest
