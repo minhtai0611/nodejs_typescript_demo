@@ -63,5 +63,5 @@ jobs:
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/node-deployment node-container=${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest
-          kubectl rollout status deployment/node-deployment
+          kubectl apply -f node-deployment.yml
+          kubectl apply -f node-service.yml
