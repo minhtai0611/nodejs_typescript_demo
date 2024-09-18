@@ -61,9 +61,15 @@ jobs:
         with:
           version: "latest"
 
-      - name: Assign KUBE_CONFIG from configuring kubectl
+      - name: Install Kubernetes with Portworx Operator
         run: |
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > kubernetes-config.yml
+          kubectl apply -f 'https://install.portworx.com/3.1?comp=pxoperator&kbver=1.30.2&ns=nodejs-express-typescript-demo'
+          kubectl apply -f 'https://install.portworx.com/3.1?operator=true&mc=false&kbver=1.30.2&ns=nodejs-express-typescript-demo&oem=esse&user=8064c1b9-081c-40b4-b787-0c122db20481&b=true&iop=6&c=px-cluster-922bd744-7186-440c-a574-78a39010f996&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true'
+
+      - name: Set up Kubernetes config
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
+          chmod 600 $HOME/.kube/config
 
       - name: Deploy to Kubernetes
         run: |
