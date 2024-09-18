@@ -48,36 +48,31 @@ jobs:
       - name: Run Docker image
         run: docker run -d -p 3000:3000 --name ${{ secrets.DOCKERHUB_USERNAME }}-nodejs-express-typescript-demo ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest
 
-  deploy:
-    runs-on: ubuntu-latest
-    needs: build
+  # deploy:
+  #   runs-on: ubuntu-latest
+  #   needs: build
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+  #   steps:
+  #     - name: Checkout code
+  #       uses: actions/checkout@v2
 
-      - name: Set up kubectl
-        uses: azure/setup-kubectl@v1
-        with:
-          version: "latest"
+  #     - name: Set up kubectl
+  #       uses: azure/setup-kubectl@v1
+  #       with:
+  #         version: "latest"
 
-      # - name: Install Kubernetes with Portworx Operator
-      #   run: |
-      #     kubectl apply -f 'https://install.portworx.com/3.1?comp=pxoperator&kbver=1.30.2&ns=nodejs-express-typescript-demo'
-      #     kubectl apply -f 'https://install.portworx.com/3.1?operator=true&mc=false&kbver=1.30.2&ns=nodejs-express-typescript-demo&oem=esse&user=8064c1b9-081c-40b4-b787-0c122db20481&b=true&iop=6&c=px-cluster-922bd744-7186-440c-a574-78a39010f996&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true'
+  #     - name: Install Kubernetes with Portworx Operator
+  #       run: |
+  #         kubectl apply -f 'https://install.portworx.com/3.1?comp=pxoperator&kbver=1.30.2&ns=nodejs-express-typescript-demo'
+  #         kubectl apply -f 'https://install.portworx.com/3.1?operator=true&mc=false&kbver=1.30.2&ns=nodejs-express-typescript-demo&oem=esse&user=8064c1b9-081c-40b4-b787-0c122db20481&b=true&iop=6&c=px-cluster-922bd744-7186-440c-a574-78a39010f996&stork=true&csi=true&mon=true&tel=true&st=k8s&promop=true'
 
-      - name: Set up Kubernetes config
-        run: |
-          mkdir ${HOME}/.kube
-          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
-          cat ${HOME}/.kube/config
+  #     - name: Set up Kubernetes config
+  #       run: |
+  #         mkdir ${HOME}/.kube
+  #         echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+  #         cat ${HOME}/.kube/config
 
-      - name: Deploy to Kubernetes
-        run: |
-          kubectl apply -f node-deployment.yml
-          kubectl apply -f node-service.yml
-
-      # - name: Deploy to Kubernetes
-      #   run: |
-      #     kubectl set image deployment/node-deployment node-container=${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest
-      #     kubectl rollout status deployment/node-deployment
+  #     - name: Deploy to Kubernetes
+  #       run: |
+  #         kubectl apply -f node-deployment.yml
+  #         kubectl apply -f node-service.yml
