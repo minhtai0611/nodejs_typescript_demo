@@ -62,6 +62,9 @@ jobs:
           version: "latest"
 
       - name: Configure kubectl
+        run: kubectl config view --flatten --minify > kubernetes-config.yml
+
+      - name: Assign KUBE_CONFIG from configuring kubectl
         run: |
           echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > kubernetes-config.yml
 
