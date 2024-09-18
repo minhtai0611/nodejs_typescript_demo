@@ -61,7 +61,11 @@ jobs:
         with:
           version: "latest"
 
+      - name: Assign KUBE_CONFIG from configuring kubectl
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > kubernetes-config.yml
+
       - name: Deploy to Kubernetes
         run: |
-          kubectl apply -f node-deployment.yml
-          kubectl apply -f node-service.yml
+          kubectl set image deployment/node-deployment node-container=${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest
+          kubectl rollout status deployment/node-deployment

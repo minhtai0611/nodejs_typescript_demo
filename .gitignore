@@ -13,4 +13,7 @@ dist/
 # TypeScript cache
 *.tsbuildinfo
 
+# Kubernetes config file
+*kubernetes*.yml
+
 
