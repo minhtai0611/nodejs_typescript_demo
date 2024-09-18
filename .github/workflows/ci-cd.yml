@@ -48,14 +48,24 @@ jobs:
       - name: Run Docker image
         run: docker run -d -p 3000:3000 --name ${{ secrets.DOCKERHUB_USERNAME }}-nodejs-express-typescript-demo ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest
 
-      - name: Set up Kubeconfig
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up kubectl
+        uses: azure/setup-kubectl@v1
+        with:
+          version: "latest"
+
+      - name: Configure kubectl
         run: |
-          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
-          export KUBECONFIG=$(pwd)/kubeconfig.yaml
+          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
 
       - name: Deploy to Kubernetes
         run: |
-          kubectl set image deployment/node-deployment node-container=${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest --record
-
-      - name: Rollout status check
-        run: kubectl rollout status deployment/node-deployment
+          kubectl set image deployment/node-deployment node-container=${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest
+          kubectl rollout status deployment/node-deployment
