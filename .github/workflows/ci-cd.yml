@@ -47,3 +47,15 @@ jobs:
 
       - name: Run Docker image
         run: docker run -d -p 3000:3000 --name ${{ secrets.DOCKERHUB_USERNAME }}-nodejs-express-typescript-demo ${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest
+
+      - name: Set up Kubeconfig
+        run: |
+          echo "${{ secrets.KUBE_CONFIG }}" > kubeconfig.yaml
+          export KUBECONFIG=$(pwd)/kubeconfig.yaml
+
+      - name: Deploy to Kubernetes
+        run: |
+          kubectl set image deployment/node-deployment node-container=${{ secrets.DOCKERHUB_USERNAME }}/nodejs-express-typescript-demo:latest --record
+
+      - name: Rollout status check
+        run: kubectl rollout status deployment/node-deployment
