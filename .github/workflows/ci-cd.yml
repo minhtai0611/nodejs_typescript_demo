@@ -68,8 +68,9 @@ jobs:
 
       - name: Set up Kubernetes config
         run: |
-          echo "${{ secrets.KUBE_CONFIG }}" | base64 --decode > $HOME/.kube/config
-          chmod 600 $HOME/.kube/config
+          mkdir ${HOME}/.kube
+          echo ${{ secrets.KUBE_CONFIG }} | base64 --decode > ${HOME}/.kube/config
+          cat ${HOME}/.kube/config
 
       - name: Deploy to Kubernetes
         run: |
