@@ -1,7 +1,6 @@
 import express, {Application, Request, Response} from 'express';
 import { graphqlHTTP } from 'express-graphql';
 import schema from './schema';
-import root from './resolvers';
 import { getMessages, saveMessage, createDatabaseAndTable } from './mariadb';
 import http from 'http';
 import { Server } from 'socket.io';
@@ -16,7 +15,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use('/graphql', graphqlHTTP({
   schema: schema,
-  rootValue: root,
   graphiql: {
     headerEditorEnabled: true,
   },

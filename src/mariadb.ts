@@ -24,7 +24,6 @@ export async function createDatabaseAndTable() {
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
-        console.log("Database and table created or already exist.");
     } catch (err) {
         console.error(err);
     } finally {
@@ -38,7 +37,12 @@ export async function getMessages() {
         conn = await pool.getConnection();
         const rows = await conn.query("SELECT * FROM messages");
         return rows;
-    } finally {
+    }
+    catch (error) {
+        console.error(error);
+        throw new Error("Error getting messages");
+    }
+    finally {
         if (conn) conn.release(); // Release connection back to pool
     }
 }
@@ -47,12 +51,15 @@ export async function saveMessage(content: string, senderId: string) {
     let conn;
     try {
         conn = await pool.getConnection();
-        const result = await conn.query("INSERT INTO messages (content, senderId) VALUES (?, ?)", [content, senderId]);
+        const rows = await conn.query("INSERT INTO messages (content, senderId) VALUES (?, ?)", [content, senderId]);
+        // Fetching the newly inserted message along with its timestamp
+        const [{id, timestamp}] = await conn.query("SELECT * FROM messages WHERE id = ?", [rows.insertId]);
         // Retrieve and return the inserted message
         const newMessage = {
-            id: result.insertId,
+            id,
             content,
-            senderId
+            senderId,
+            timestamp
         };
         return newMessage;
     }
