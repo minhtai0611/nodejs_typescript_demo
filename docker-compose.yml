@@ -1,21 +1,21 @@
- services:
-   app:
-     build: .
-     ports:
-       - '3000:3000'
-     environment:
-       - DB_HOST=127.0.0.1
-       - DB_USER=minhtai
-       - DB_PASSWORD=root
-       - DB_DATABASE=mysql
-     depends_on:
-       - db
-   
-   db:
-     image: mariadb:latest 
-     restart: always 
-     environment:
-       MARIADB_ROOT_PASSWORD: root
-       MARIADB_DATABASE: mysql
-     ports:
-       - '3306:3306'
+services:
+  app:
+    build: .
+    ports:
+      - "3000:3000"
+    environment:
+      - DB_HOST=127.0.0.1
+      - DB_USER=minhtai
+      - DB_PASSWORD=root
+      - DB_DATABASE=chat
+    depends_on:
+      - db
+
+  db:
+    image: mariadb:latest
+    restart: always
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: chat
+    ports:
+      - "3306:3306"

@@ -24,9 +24,11 @@ export async function createDatabaseAndTable() {
                 timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
             )
         `);
-    } catch (err) {
+    }
+    catch (err) {
         console.error(err);
-    } finally {
+    }
+    finally {
         if (conn) conn.release(); // Release connection back to pool
     }
 }

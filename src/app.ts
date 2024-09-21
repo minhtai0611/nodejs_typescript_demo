@@ -47,4 +47,3 @@ try {
 catch (err: unknown) {
     console.error(`Error: ${err}`);
 }
-
