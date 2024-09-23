@@ -4,11 +4,13 @@ import schema from './schema';
 import { getMessages, saveMessage, createDatabaseAndTable } from './mariadb';
 import http from 'http';
 import { Server } from 'socket.io';
+import { config } from 'dotenv';
+config();
 
 const app: Application = express();
 const server = http.createServer(app);
 const io = new Server(server);
-const PORT: string | number = process.env.PORT || 3000;
+const PORT = process.env.PORT!;
 
 // Middleware to parse JSON bodies
 app.use(express.json());

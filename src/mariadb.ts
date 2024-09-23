@@ -1,10 +1,12 @@
 import mariadb from 'mariadb';
+import { config } from 'dotenv';
+config();
 
 const pool = mariadb.createPool({
-    host: '127.0.0.1',
-    user:'minhtai',
-    password: 'root',
-    database: 'chat'
+    host: process.env.DB_HOST!,
+    user: process.env.DB_USER!,
+    password: process.env.DB_PASSWORD!,
+    database: process.env.DB_DATABASE!
 });
 
 export async function createDatabaseAndTable() {

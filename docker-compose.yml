@@ -1,21 +1,36 @@
+version: "3.8"
+
 services:
   app:
-    build: .
+    build:
+      context: . # Build from current directory where Dockerfile is located
+      dockerfile: Dockerfile # Specify which Dockerfile to use
+    container_name: node_app
+    working_dir: /usr/src/app # Set working directory inside container (optional since it's in Dockerfile)
+    volumes:
+      - .:/usr/src/app # Mount current directory to container for live updates during development
     ports:
-      - "3000:3000"
+      - "${PORT}:${PORT}" # Map port 3000 of host to port 3000 of container
     environment:
-      - DB_HOST=127.0.0.1
-      - DB_USER=minhtai
-      - DB_PASSWORD=root
-      - DB_DATABASE=chat
+      - DB_HOST=db # Reference to database service name defined below
+      - DB_USER=${DB_USER} # Database user for connection
+      - DB_PASSWORD=${DB_PASSWORD} # Database password (should be secured in production)
+      - DB_DATABASE=${DB_DATABASE} # Name of database to connect to
     depends_on:
-      - db
+      - db # Ensure db service starts before app service
 
   db:
-    image: mariadb:latest
+    image: mariadb:latest # Use latest official MariaDB image
+    container_name: mariadb_container
     restart: always
     environment:
-      MARIADB_ROOT_PASSWORD: root
-      MARIADB_DATABASE: chat
+      MARIADB_ROOT_PASSWORD: ${DB_PASSWORD} # Root password for MariaDB
+      MARIADB_DATABASE: ${DB_DATABASE} # Create new database on startup
+      MARIADB_USER: ${DB_USER}
+      MARIADB_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "3306:3306"
+      - "3306:3306" # Map port 3306 of host to port 3306 of container
+
+networks:
+  default:
+    driver: bridge # Use bridge network for communication between containers
