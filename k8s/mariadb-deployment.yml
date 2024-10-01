@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb-deployment
+spec:
+  replicas: 1 # Typically one instance of a database is sufficient; consider StatefulSet for HA setups.
+  selector:
+    matchLabels:
+      app: mariadb  
+  template:
+    metadata:
+      labels:
+        app: mariadb  
+    spec:
+      containers:
+        - name: mariadb-container
+          image: mariadb:latest
+          env:
+            - name: MARIADB_ROOT_PASSWORD 
+              valueFrom:
+                configMapKeyRef:
+                  name: node-app-config
+                  key: DB_PASSWORD 
+            - name: MARIADB_DATABASE 
+              valueFrom:
+                configMapKeyRef:
+                  name: node-app-config 
+                  key: DB_DATABASE
+            - name : MARIADB_USER  
+              valueFrom :
+                configMapKeyRef :
+                  name : node-app-config  
+                  key : DB_USER  
+            - name : MARIADB_PASSWORD  
+              valueFrom :
+                configMapKeyRef :
+                  name : node-app-config  
+                  key : DB_PASSWORD
+          ports:
+            - containerPort: 3306
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          volumeMounts:
+          - mountPath: /docker-entrypoint-initdb.d # Mount path for init scripts
+            name: init-scripts-volume
+      volumes:
+        - name: init-scripts-volume 
+          configMap:
+            name: init-scripts-configmap # Reference to ConfigMap containing init.sql

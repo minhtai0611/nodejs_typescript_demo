@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: node-app-config
+data:
+  DB_HOST: "mariadb-service"
+  DB_USER: "minhtai"
+  DB_PASSWORD: "root"
+  DB_DATABASE: "chat"
+  PORT: "3000"

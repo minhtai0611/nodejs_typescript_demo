@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: node-app-deployment
+spec:
+  replicas: 1 # Number of replicas for high availability 
+  selector:
+    matchLabels:
+      app: node-app 
+  template:
+    metadata:
+      labels:
+        app: node-app
+    spec:
+      containers:
+        - name: node-app-container 
+          image: minhtai0611/nodejs-express-typescript-demo:latest # Use an official Node.js image 
+          ports:
+            - containerPort: 3000 # Port exposed by the container
+          envFrom:
+            - configMapRef:
+                name: node-app-config # Reference to ConfigMap for environment variables
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
